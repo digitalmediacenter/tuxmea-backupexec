@@ -11,6 +11,10 @@ describe 'backupexec' do
         let (:facts) { {
             :osfamily => 'RedHat'
         } }
+        it { should contain_group('beoper') }
+        it { should contain_user('beuser').with(
+            :groups => 'beoper'
+        ) }
         it { should contain_file('/etc/VRTSralus/ralus.cfg') }
         it { should contain_service('VRTSralus.init') }
     end # fin context "with hiera config on Debian"
