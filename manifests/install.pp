@@ -2,9 +2,10 @@
 #
 # Install Symantec BackeExec Agent
 #
-class backupexec::install {
+class backupexec::install (
+) {
   package { $backupexec::params::pkgname:
-    ensure  => present,
+    ensure => present,
   }
   file { '/opt/VRTSralus/data':
     ensure  => 'directory',

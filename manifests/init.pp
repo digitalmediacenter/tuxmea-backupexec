@@ -4,10 +4,9 @@
 #
 class backupexec (
 ) inherits backupexec::params {
-    include backupexec::install
-    include backupexec::config
-    include backupexec::service
-      Class['backupexec::install'] ->
-      Class['backupexec::config'] ->
-      Class['backupexec::service']
+  include backupexec::install
+  include backupexec::config
+  include backupexec::service
+
+Class['backupexec::install'] -> Class['backupexec::config'] -> Class['backupexec::service']
 }

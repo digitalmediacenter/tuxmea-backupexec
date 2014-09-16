@@ -2,7 +2,8 @@
 #
 # This class enables the RALUS Service
 #
-class backupexec::service {
+class backupexec::service (
+) {
   file { '/etc/init.d/VRTSralus.init':
     ensure => 'link',
     target => '/opt/VRTSralus/bin/VRTSralus.init',
