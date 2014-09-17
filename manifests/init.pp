@@ -26,6 +26,7 @@ class backupexec (
   $system_exclude               = [ '/dev/*.*', '/proc/*.*', '/sys/*.*', ],
   $package_name                 = $backupexec::params::pkgname,
   $package_ensure               = 'present',
+  $service_ensure               = 'running',
 ) inherits backupexec::params {
 
   validate_re($advertisement_port, '^[0-9]+$', 'A port number can only contain numbers... - advertisement_port')
@@ -80,7 +81,7 @@ class backupexec (
   }
 
   service { 'VRTSralus.init':
-    ensure     => running,
+    ensure     => $service_ensure,
     enable     => true,
     hasstatus  => false,
     hasrestart => true,
