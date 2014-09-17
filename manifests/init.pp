@@ -24,6 +24,8 @@ class backupexec (
   $dnsquery_timeout             = 5000,
   $systemfs_type_exclude        = [ 'devpts', 'proc', 'sysfs', 'rpc_pipefs', 'tmpfs', 'ftp', ],
   $system_exclude               = [ '/dev/*.*', '/proc/*.*', '/sys/*.*', ],
+  $package_name                 = $backupexec::params::pkgname,
+  $package_ensure               = 'present',
 ) inherits backupexec::params {
 
   validate_re($advertisement_port, '^[0-9]+$', 'A port number can only contain numbers... - advertisement_port')
@@ -57,8 +59,8 @@ class backupexec (
     require => Group['beoper']
   }
 
-  package { $backupexec::params::pkgname:
-    ensure  => present,
+  package { $package_name:
+    ensure  => $package_ensure,
     require => User['beuser'],
   }
 
@@ -68,7 +70,7 @@ class backupexec (
     group   => 'beoper',
     mode    => '0644',
     content => template('backupexec/ralus.cfg.erb'),
-    require => Package[$backupexec::params::pkgname],
+    require => Package[$package_name],
   }
 
   file { '/etc/init.d/VRTSralus.init':
@@ -83,7 +85,7 @@ class backupexec (
     hasstatus  => false,
     hasrestart => true,
     pattern    => '/opt/VRTSralus/bin/beremote',
-    require    => Package[$backupexec::params::pkgname],
+    require    => Package[$package_name],
   }
 
   file { '/opt/VRTSralus/data':
@@ -91,6 +93,6 @@ class backupexec (
     owner   => 'beuser',
     group   => 'beoper',
     mode    => '0770',
-    require => Package[$backupexec::params::pkgname],
+    require => Package[$package_name],
   }
 }
