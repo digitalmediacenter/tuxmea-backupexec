@@ -1,25 +1,29 @@
 # ralus.cfg
 # managed by Puppet
 #
-Software\Symantec\Backup Exec For Windows\Agent Browser\TcpIp\AdvertisementPort=6101
-Software\Symantec\Backup Exec For Windows\Backup Exec\Debug\AgentConfig=0
-Software\Symantec\Backup Exec For Windows\Backup Exec\Debug\VXBSAlevel=
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Advertise All=1
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Advertise Now=0
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Advertisement Purge=0
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Advertising Disabled=0
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Advertising Interval Minutes=240
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Agent Directory List_1=<%= scope.lookupvar("::hostname") %>.bak.epost-dev.de
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Agent Directory List_2=EPD-BE2012
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Auto Discovery Enabled=1
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Logging\RANT NDMP Debug Level=0
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RALUS\DisableOFO=0
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RALUS\Encoder=
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RALUS\ShowTSAFS=
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RALUS\VfmPath=/opt/VRTSralus/VRTSvxms
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RMAL\DisableRMAL=0
-Software\Symantec\Backup Exec For Windows\Backup Exec\Network\TcpIp\DnsQueryTimeOut=5000
+Software\Symantec\Backup Exec For Windows\Agent Browser\TcpIp\AdvertisementPort=<%= @advertisement_port %>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Debug\AgentConfig=<%= @agent_config %>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Debug\VXBSAlevel=<%= @vxbsa_level %>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Advertise All=<%= @advertise_all %>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Advertise Now=<%= @advertise_now %>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Advertisement Purge=<%= @advertisement_purge %>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Advertising Disabled=<%= @advertising_disabled %>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Advertising Interval Minutes=<%= @advertising_interval_minutes %>
+<% @agent_directory_list.to_enum.with_index(1).each do |agent, idx| -%>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Agent Directory List_<%= idx %>= <%= agent %>
+<% end -%>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Agents\Auto Discovery Enabled=<%= @auto_discovery_enabled %>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\Logging\RANT NDMP Debug Level=<%= @rant_ndmp_debug_level %>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RALUS\DisableOFO=<%= @disable_ofo %>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RALUS\Encoder=<%= @encoder %>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RALUS\ShowTSAFS=<%= @show_tsafs %>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RALUS\VfmPath=<%= @vfm_path %>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RMAL\DisableRMAL=<%= @disable_rmal %>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Network\TcpIp\DnsQueryTimeOut=<%= @dnsquery_timeout %>
 # Excludes
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RALUS\SystemExclude1=/dev/*.*
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RALUS\SystemExclude2=/proc/*.*
-Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RALUS\SystemExclude3=/sys/*.*
+<% @systemfs_type_exclude.to_enum.with_index(1).each do |fstype, idx| -%>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RALUS\SystemFSTypeExclude<%= idx %>=<%= fstype %>
+<% end -%>
+<% @system_exclude.to_enum.with_index(1).each do |exclude, idx| -%>
+Software\Symantec\Backup Exec For Windows\Backup Exec\Engine\RALUS\SystemExclude<%= idx %>=<%= exclude %>
+<% end -%>
